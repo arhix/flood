@@ -16,9 +16,14 @@ interface TagFilter {
   filter: string[];
 }
 
+interface LocationFilter {
+  type: 'location';
+  filter: string[];
+}
+
 function filterTorrents(
   torrentList: TorrentProperties[],
-  opts: StatusFilter | TrackerFilter | TagFilter,
+  opts: StatusFilter | TrackerFilter | TagFilter | LocationFilter,
 ): TorrentProperties[] {
   if (opts.filter.length) {
     if (opts.type === 'status') {
@@ -35,6 +40,10 @@ function filterTorrents(
         (torrent) =>
           (includeUntagged && torrent.tags.length === 0) || torrent.tags.some((tag) => opts.filter.includes(tag)),
       );
+    }
+
+    if (opts.type === 'location') {
+      return torrentList.filter((torrent) => opts.filter.some((directory) => torrent.directory.startsWith(directory)));
     }
   }
 

@@ -10,6 +10,7 @@ class TorrentFilterStore {
   statusFilter: Array<TorrentStatus> = [];
   tagFilter: Array<string> = [];
   trackerFilter: Array<string> = [];
+  locationFilter: Array<string> = [];
 
   filterTrigger = false;
 
@@ -19,10 +20,18 @@ class TorrentFilterStore {
     tagSizes: {},
     trackerCounts: {},
     trackerSizes: {},
+    locationCounts: {},
+    locationSizes: {},
   };
 
   @computed get isFilterActive() {
-    return this.searchFilter !== '' || this.statusFilter.length || this.tagFilter.length || this.trackerFilter.length;
+    return (
+      this.searchFilter !== '' ||
+      this.statusFilter.length ||
+      this.tagFilter.length ||
+      this.trackerFilter.length ||
+      this.locationFilter.length
+    );
   }
 
   constructor() {
@@ -35,6 +44,7 @@ class TorrentFilterStore {
     this.tagFilter = [];
     this.trackerFilter = [];
     this.filterTrigger = !this.filterTrigger;
+    this.locationFilter = [];
   }
 
   handleTorrentTaxonomyDiffChange(diff: Operation[]) {
@@ -74,6 +84,12 @@ class TorrentFilterStore {
     const trackers = Object.keys(this.taxonomy.trackerCounts).sort((a, b) => a.localeCompare(b));
 
     this.computeFilters(trackers, this.trackerFilter, filter, event);
+    this.filterTrigger = !this.filterTrigger;
+  }
+
+  setLocationFilters(filter: string | '', event: KeyboardEvent | MouseEvent | TouchEvent) {
+    // keys: [] to disable shift-clicking as it doesn't make sense in a tree
+    this.computeFilters([], this.locationFilter, filter, event);
     this.filterTrigger = !this.filterTrigger;
   }
 

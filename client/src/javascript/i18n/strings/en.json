@@ -141,6 +141,7 @@
   "filter.status.title": "Filter by Status",
   "filter.tag.title": "Filter by Tag",
   "filter.tracker.title": "Filter by Tracker",
+  "filter.location.title": "Filter by Location",
   "filter.untagged": "Untagged",
   "general.ago": "ago",
   "general.clipboard.copied": "Copied",

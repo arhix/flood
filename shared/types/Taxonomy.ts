@@ -4,4 +4,6 @@ export interface Taxonomy {
   tagSizes: Record<string, number>;
   trackerCounts: Record<string, number>;
   trackerSizes: Record<string, number>;
+  locationCounts: Record<string, number>;
+  locationSizes: Record<string, number>;
 }

@@ -17,6 +17,8 @@ class TaxonomyService extends BaseService<TaxonomyServiceEvents> {
     tagSizes: {},
     trackerCounts: {'': 0},
     trackerSizes: {},
+    locationCounts: {'': 0},
+    locationSizes: {'': 0},
   };
 
   lastTaxonomy: Taxonomy = this.taxonomy;
@@ -65,6 +67,8 @@ class TaxonomyService extends BaseService<TaxonomyServiceEvents> {
       tagSizes: {...this.taxonomy.tagSizes},
       trackerCounts: {...this.taxonomy.trackerCounts},
       trackerSizes: {...this.taxonomy.trackerSizes},
+      locationCounts: {...this.taxonomy.locationCounts},
+      locationSizes: {...this.taxonomy.locationSizes},
     };
 
     torrentStatusMap.forEach((status) => {
@@ -76,6 +80,8 @@ class TaxonomyService extends BaseService<TaxonomyServiceEvents> {
     this.taxonomy.tagSizes = {};
     this.taxonomy.trackerCounts = {'': 0};
     this.taxonomy.trackerSizes = {};
+    this.taxonomy.locationCounts = {'': 0};
+    this.taxonomy.locationSizes = {};
   };
 
   handleProcessTorrentListEnd = ({torrents}: {torrents: TorrentList}) => {
@@ -101,6 +107,7 @@ class TaxonomyService extends BaseService<TaxonomyServiceEvents> {
     this.incrementTagSizes(torrentProperties.tags, torrentProperties.sizeBytes);
     this.incrementTrackerCounts(torrentProperties.trackerURIs);
     this.incrementTrackerSizes(torrentProperties.trackerURIs, torrentProperties.sizeBytes);
+    this.incrementLocationCountsAndSizes(torrentProperties.directory, torrentProperties.sizeBytes);
   };
 
   incrementStatusCounts(statuses: Array<TorrentStatus>) {
@@ -151,6 +158,14 @@ class TaxonomyService extends BaseService<TaxonomyServiceEvents> {
         this.taxonomy.trackerSizes[tracker] = sizeBytes;
       }
     });
+  }
+
+  incrementLocationCountsAndSizes(
+    directory: TorrentProperties['directory'],
+    sizeBytes: TorrentProperties['sizeBytes'],
+  ) {
+    this.taxonomy.locationSizes[directory] += sizeBytes;
+    this.taxonomy.locationCounts[directory] += 1;
   }
 }
 

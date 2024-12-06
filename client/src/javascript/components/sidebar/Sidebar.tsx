@@ -14,6 +14,7 @@ import TagFilters from './TagFilters';
 import ThemeSwitchButton from './ThemeSwitchButton';
 import TrackerFilters from './TrackerFilters';
 import TransferData from './TransferData';
+import LocationFilters from './LocationFilters';
 
 const Sidebar: FC = () => (
   <OverlayScrollbarsComponent
@@ -43,6 +44,7 @@ const Sidebar: FC = () => (
       <SearchBox />
       <StatusFilters />
       <TagFilters />
+      <LocationFilters />
       <TrackerFilters />
       <DiskUsage />
       <div style={{flexGrow: 1}} />
